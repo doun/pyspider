@@ -5,6 +5,9 @@
 
 import "./debug.less"
 import "./splitter"
+
+import "./jquery.splitter.less"
+import "./jquery.splitter"
 import CSSSelectorHelperServer from "./css_selector_helper"
 
 window.SelectorHelper = (function() {
@@ -233,6 +236,10 @@ window.Debugger = (function() {
           .on('resize-end', function() {
             $('#left-area .overlay').hide();
           });
+      
+
+      $('#task-panel').height('100%').width('100%').split({orientation: 'horizontal', limit: 50, position: '40%'});
+      $('#debug-tabs').height('100%').width('100%').split({orientation: 'horizontal', limit: 50, position: '40%'});
 
       //codemirror
       CodeMirror.keyMap.basic.Tab = 'indentMore';
@@ -487,7 +494,7 @@ window.Debugger = (function() {
           $('#left-area .overlay').hide();
 
           //web
-          $("#tab-web .iframe-box").html('<iframe src="/blank.html" sandbox="allow-same-origin allow-scripts" height="50%"></iframe>');
+          $("#tab-web .iframe-box").html('<iframe src="/blank.html" sandbox="allow-same-origin allow-scripts"></iframe>');
           const iframe = $("#tab-web iframe")[0];
           const content_type = data.fetch_result.headers && data.fetch_result.headers['Content-Type'] && data.fetch_result.headers['Content-Type'] || "text/plain";
 
@@ -522,9 +529,11 @@ window.Debugger = (function() {
           doc.close();
           doc.onreadystatechange = () => {
             if (doc.readyState === 'complete') {
-              $("#tab-web iframe").height(doc.body.scrollHeight + 60);
+        //      console.log("height is:" + doc.body.scrollHeight);
+              //$("#tab-web iframe").height(doc.body.scrollHeight + 60);
+              //$("#tab-web iframe").height('100%');
             }
-          };
+      };
 
           //follows
           $('#tab-follows').html('');
